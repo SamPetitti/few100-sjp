@@ -8,4 +8,3 @@ describe('writing specs in typescript', () => {
         expect(add(2, 2)).toBe(4);
     });
 });
-S
