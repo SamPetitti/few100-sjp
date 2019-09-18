@@ -107,5 +107,141 @@ describe('declaring variables', () => {
             console.log(message);
 
         });
+
+        it('has array literals', () => {
+            const luckyNumbers = [9, 20, 133];
+            expect(luckyNumbers[0]).toBe(9);
+            luckyNumbers[999] = 50;
+
+            expect(luckyNumbers[100]).toBeUndefined();
+
+            let friends: string[];
+            friends = ['Bill', 'Beth'];
+
+            let someArray: (string | number)[];
+            someArray = [99, 'dog', 'cat', 444];
+
+            let someArray2: Array<string | number>;
+        });
+        it('intro to tuples', () => {
+            type SettingOption = 'log' | 'warn' | 'trace'; // this is v. similar to enumerated constants in C# (enums are rarely used)
+            type Setting = [boolean, SettingOption, SettingOption, SettingOption];
+            let setting: Setting;
+
+            setting = [true, 'log', 'warn', 'trace'];
+            // setting = ['dog', false] //wont compile
+
+            const isSet = setting[0];
+            const allowLog = setting[1];
+        });
+    });
+
+    describe('function literals', () => {
+        it('three different ways to declare a function - plus methods in a class we will do later', () => {
+            // Named function
+            function add(a: number, b: number): number {
+                return a + b;
+            }
+            // Anonymous Function
+
+            const subtract = function (a: number, b: number): number {
+                return a - b;
+            };
+
+            const multiply = (a: number, b: number): number => a * b;
+
+            expect(add(10, 2)).toBe(12);
+            expect(subtract(10, 2)).toBe(8);
+            expect(multiply(10, 2)).toBe(20);
+
+            // you can move named functions around - doesn't matter whether they are called before or after function definition
+
+            const divide = (a: number, b: number): number => {
+                if (b === 0) {
+                    throw new Error('Are you trying to open a black hole');
+                } else {
+                    return a / b;
+                }
+            };
+        });
+    });
+    describe('object literals', () => {
+        it('has them', () => {
+
+            type MPAARating = 'G' | 'PG' | 'PG-13' | 'R' | 'NC-17';
+            interface Movie {
+                title: string;
+                director: string;
+                yearReleased: number;
+                MPAARating?: MPAARating; // the ? makes the prop optional
+                [key: string]: any; // this allows you to add anything
+            }
+            const movie: Movie = {
+                title: 'Thor Ragnorak',
+                director: 'Taika Waititi',
+                yearReleased: 2016
+            };
+
+            expect(movie.title).toBe('Thor Ragnorak');
+            expect(movie.title).toBe('Thor Ragnorak');
+
+            // movie.MPAARating = 'PG13'; // you can do this in JS, but not TS. This allows you to not add mis-spelled properties
+
+            movie.MPAARating = 'PG-13';
+            movie.cast = ['Chris Hemsworth', 'Mark Ruffalo']; // because of the [key:string]: any
+            movie.Watched = true; // because of the [key:string]: any
+        });
+
+        it('is interfaces with objects', () => {
+            interface Vehicle {
+                vin: string;
+                make: string;
+                model: string;
+                year: number;
+            }
+
+            interface Dictionary<T> {
+                [key: string]: T;
+            }
+
+
+
+            const myVehicles: Dictionary<Vehicle> = {
+                '83989sjioe': {
+                    vin: '83989sjioe',
+                    make: 'Chevy',
+                    model: 'Bolt',
+                    year: 2018
+                },
+                xyzpdq: {
+                    vin: 'xyzpdq',
+                    make: 'Honda',
+                    model: 'Pilot',
+                    year: 2019
+                }
+
+            };
+
+            expect(myVehicles['83989sjioe'].make).toBe('Chevy');
+        });
+
+        it('duck typing', () => {
+            interface ThingWithMessage {
+                message: string;
+            }
+            function doSomething(thing: ThingWithMessage) {
+                console.log(thing.message);
+            }
+
+            doSomething({ message: 'Call Your Mom' });
+
+            const phoneCall = {
+                from: 'Sue',
+                time: 'AM',
+                message: 'Call Me Back'
+            };
+
+            doSomething(phoneCall);
+        });
     });
 });
