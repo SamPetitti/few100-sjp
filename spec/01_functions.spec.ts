@@ -1,4 +1,4 @@
-import { isEven } from './utils';
+import { isEven, formatter, identity, jesseDecorator } from './utils';
 
 describe('functions', () => {
     describe('parameters to functions', () => {
@@ -60,7 +60,7 @@ describe('functions', () => {
 
             });
 
-            it('fun with array descturing', () => {
+            it('fun with array destructuring', () => {
                 const numbers = [1, 2, 3, 4, 5];
 
                 const [first, , tacos] = numbers;
@@ -73,7 +73,7 @@ describe('functions', () => {
                 expect(tail).toEqual([2, 3, 4, 5]);
             });
 
-            it('fun with object descturing', () => {
+            it('fun with object destructuring', () => {
                 const employee = {
                     firstName: 'Sue',
                     lastName: 'Smith',
@@ -162,5 +162,80 @@ describe('array methods', () => {
         const isMultipled = numbers.reduce((a, b) => a * b);
         expect(isMultipled).toBe(362880);
 
+    });
+
+    describe('some more higher order functions', () => {
+        // all of these functions are held in utils.ts
+        describe('a function that takes a function as an argument', () => {
+            it('a kind of decorator', () => {
+                // Higher order functions help you follow O in SOLID
+                // Identity is a "mockingbird function"
+                const response = formatter('Hello World!', identity);
+                expect(response).toBe('HELLO_WORLD!');
+                // passing in an anonymous function that adds the ***{string}***
+                const jesseresponse = formatter('Hello World', (s) => `***${s}***`);
+                expect(jesseresponse).toBe('***HELLO_WORLD***');
+
+                // passing the function to bang surround, then passing bang into formatter
+                const bangSurround = jesseDecorator('!');
+                const jr2 = formatter('Hello World', bangSurround);
+                expect(jr2).toBe('!!!HELLO_WORLD!!!');
+
+                const jr3 = formatter('Hello World!', jesseDecorator('@'));
+                expect(jr3).toBe('@@@HELLO_WORLD!@@@');
+            });
+        });
+        describe('making elements with various techniques', () => {
+            it('straight-ahead procedural programming', () => {
+
+                function tagMaker(tag: string, content: string) {
+                    return `<${tag}>${content}</${tag}>`;
+                }
+
+                expect(tagMaker('h1', 'Hello')).toBe('<h1>Hello</h1>');
+                expect(tagMaker('h1', 'Dog')).toBe('<h1>Dog</h1>');
+                expect(tagMaker('h1', 'Cat')).toBe('<h1>Cat</h1>');
+                expect(tagMaker('p', 'Mouse')).toBe('<p>Mouse</p>');
+            });
+            it('doing it with objects', () => {
+
+                class TagMaker {
+
+
+                    constructor(private tag: string) { }
+
+                    make(content: string) {
+                        return `<${this.tag}>${content}</${this.tag}>`;
+                    }
+
+                }
+
+                const h1Maker = new TagMaker('h1');
+                const pMaker = new TagMaker('p');
+
+
+                expect(h1Maker.make('Hello')).toBe('<h1>Hello</h1>');
+                expect(h1Maker.make('Dog')).toBe('<h1>Dog</h1>');
+                expect(h1Maker.make('Cat')).toBe('<h1>Cat</h1>');
+                expect(pMaker.make('Mouse')).toBe('<p>Mouse</p>');
+
+            });
+
+            it('a functional approach', () => {
+
+                function tagMaker(tag: string) {
+                    return (content: string) => `<${tag}>${content}</${tag}>`;
+                }
+
+                const h1Maker = tagMaker('h1');
+                const pMaker = tagMaker('p');
+
+                expect(h1Maker('Hello')).toBe('<h1>Hello</h1>');
+                expect(h1Maker('Dog')).toBe('<h1>Dog</h1>');
+                expect(h1Maker('Cat')).toBe('<h1>Cat</h1>');
+                expect(pMaker('Mouse')).toBe('<p>Mouse</p>');
+                expect(tagMaker('h2')('Tacos')).toBe('<h2>Tacos</h2>');
+            });
+        });
     });
 });
