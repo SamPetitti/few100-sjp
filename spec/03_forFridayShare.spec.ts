@@ -1,55 +1,56 @@
 describe('someCoolFeatures', () => {
-   it('has Variables and types', () => {
-      let name : string =  'Sam';
-      
-      expect(name).toBe('Sam');
+    it('has Variables and types', () => {
+        let name: string = 'Sam';
 
-      const city: string = 'Cleveland Heights';
-const militaryTime: number = 1130;
-const tooEarly: boolean = true;
+        expect(name).toBe('Sam');
 
-let time: any;
+        const city: string = 'Cleveland Heights';
+        const militaryTime: number = 1130;
+        const tooEarly: boolean = true;
 
-time = 1130;
-time = '11:30';
+        let time: any;
 
-type letterGrade = 'A' | 'B' | 'C' | 'D' | 'F';
+        time = 1130;
+        time = '11:30';
 
-function gradeOnlyAProjects(grade: letterGrade): string {
-    return grade;
-}
+        type letterGrade = 'A' | 'B' | 'C' | 'D' | 'F';
 
-const message: string = 'hello world';
-console.log(message);
+        function gradeOnlyAProjects(grade: letterGrade): string {
+            return grade;
+        }
 
-const num1: number = 2;
-const num2: number = 4;
+        console.log("testing on 5:12 8-10-22c")
+        const message: string = 'hello world';
+        console.log(message);
 
-function add(aNum: number, anotherNum: number): number {
-    return aNum + anotherNum;
-}
-console.log(add(num1, num2));
+        const num1: number = 2;
+        const num2: number = 4;
 
-interface Guitarist {
-    name: string;
-    guitar: string;
-}
+        function add(aNum: number, anotherNum: number): number {
+            return aNum + anotherNum;
+        }
+        console.log(add(num1, num2));
 
-const Sam = { name: 'Sammy P', guitar: 'Gibson 335' };
+        interface Guitarist {
+            name: string;
+            guitar: string;
+        }
 
-
-// function returnGuitar(guitarPlayer: Guitarist): string {
-//     return guitarPlayer.name;
-// }
-
-const returnGuitar = (guitarPlayer: Guitarist): string => {
-    return guitarPlayer.name;
-}
+        const Sam = { name: 'Sammy P', guitar: 'Gibson 335' };
 
 
+        // function returnGuitar(guitarPlayer: Guitarist): string {
+        //     return guitarPlayer.name;
+        // }
+
+        const returnGuitar = (guitarPlayer: Guitarist): string => {
+            return guitarPlayer.name;
+        }
 
 
-console.log(returnGuitar(Sam));
-      
-   });
+
+
+        console.log(returnGuitar(Sam));
+
+    });
 });
